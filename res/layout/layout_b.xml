@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" android:background="@drawable/mq_widget_bg"
+	android:layout_width="310dip" android:layout_height="76dip">
+	<FrameLayout android:id="@+id/FrameLayout"
+		android:layout_height="fill_parent" android:layout_width="fill_parent"
+		android:layout_weight="1">
+		<LinearLayout android:id="@+id/MoveIn"
+			android:layout_height="fill_parent" android:layout_width="fill_parent"
+			android:layoutAnimation="@anim/in_move">
+			<ImageView android:layout_height="fill_parent"
+				android:layout_width="fill_parent" android:id="@+id/Move_InImage"
+				android:scaleType="fitXY" android:adjustViewBounds="true"></ImageView>
+		</LinearLayout>
+		<LinearLayout android:layout_height="fill_parent"
+			android:layout_width="fill_parent" android:id="@+id/MoveOut"
+			android:layoutAnimation="@anim/out_move">
+			<ImageView android:layout_height="fill_parent"
+				android:layout_width="fill_parent" android:id="@+id/Move_OutImage"
+				android:scaleType="fitXY" android:adjustViewBounds="true"></ImageView>
+		</LinearLayout>
+	</FrameLayout>
+	<ImageButton android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:src="@drawable/widget_arrow_selector"
+		android:clickable="true" android:focusable="true"
+		android:background="@drawable/edit_theme_black"
+		android:focusableInTouchMode="true" android:adjustViewBounds="true"
+		android:scaleType="fitXY" android:id="@+id/start"></ImageButton>
+
+</LinearLayout>

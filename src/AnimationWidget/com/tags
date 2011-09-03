@@ -1,0 +1,85 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ANIMATION_WIDGET_DELETED	.\AnimationService.java	/^	public static final String ANIMATION_WIDGET_DELETED = "AnimationService.ANIMATION_WIDGET_DELETED";$/;"	f	class:AnimationService
+ANIMATION_WIDGET_SHOW	.\AnimationService.java	/^	public static final String ANIMATION_WIDGET_SHOW = "AnimationService.ANIMATION_WIDGET_SHOW";$/;"	f	class:AnimationService
+ANIMATION_WIDGET_START	.\AnimationService.java	/^	public static final String ANIMATION_WIDGET_START = "AnimationService.ANIMATION_WIDGET_START";$/;"	f	class:AnimationService
+ANIMATION_WIDGET_UPDATE	.\AnimationService.java	/^	public static final String ANIMATION_WIDGET_UPDATE = "AnimationService.ANIMATION_WIDGET_UPDATE";$/;"	f	class:AnimationService
+ARTICLES_LIMIT	.\RSSHandler.java	/^	private static final int ARTICLES_LIMIT = 15;$/;"	f	class:RSSHandler	file:
+ARTICLES_TABLE	.\NewsDroidDB.java	/^	private static final String ARTICLES_TABLE = "articles";$/;"	f	class:NewsDroidDB	file:
+AnimationService	.\AnimationService.java	/^public class AnimationService extends Service {$/;"	c
+AnimationWidget	.\AnimationWidget.java	/^public class AnimationWidget extends AppWidgetProvider {$/;"	c
+AnimationWidget.com	.\AnimationService.java	/^package AnimationWidget.com;$/;"	p
+AnimationWidget.com	.\AnimationWidget.java	/^package AnimationWidget.com;$/;"	p
+AnimationWidget.com	.\Article.java	/^package AnimationWidget.com;$/;"	p
+AnimationWidget.com	.\DebugLog.java	/^package AnimationWidget.com;$/;"	p
+AnimationWidget.com	.\Feed.java	/^package AnimationWidget.com;$/;"	p
+AnimationWidget.com	.\NewsDroidDB.java	/^package AnimationWidget.com;$/;"	p
+AnimationWidget.com	.\RSSHandler.java	/^package AnimationWidget.com;$/;"	p
+Article	.\Article.java	/^class Article extends Object {$/;"	c
+CREATE_TABLE_ARTICLES	.\NewsDroidDB.java	/^	private static final String CREATE_TABLE_ARTICLES = "create table articles (article_id integer primary key autoincrement, "$/;"	f	class:NewsDroidDB	file:
+CREATE_TABLE_FEEDS	.\NewsDroidDB.java	/^	private static final String CREATE_TABLE_FEEDS = "create table feeds (feed_id integer primary key autoincrement, "$/;"	f	class:NewsDroidDB	file:
+DATABASE_NAME	.\NewsDroidDB.java	/^	private static final String DATABASE_NAME = "newdroid";$/;"	f	class:NewsDroidDB	file:
+DATABASE_VERSION	.\NewsDroidDB.java	/^	private static final int DATABASE_VERSION = 1;$/;"	f	class:NewsDroidDB	file:
+DEBUG	.\DebugLog.java	/^    public final static boolean DEBUG = true;$/;"	f	class:DebugLog
+DebugLog	.\DebugLog.java	/^public class DebugLog$/;"	c
+FEEDS_TABLE	.\NewsDroidDB.java	/^	private static final String FEEDS_TABLE = "feeds";$/;"	f	class:NewsDroidDB	file:
+Feed	.\Feed.java	/^class Feed extends Object {$/;"	c
+HANDLER_MSG_SHOW_ANIMATION	.\AnimationService.java	/^	private static final int HANDLER_MSG_SHOW_ANIMATION = 1;$/;"	f	class:AnimationService	file:
+NewsDroidDB	.\NewsDroidDB.java	/^	public NewsDroidDB(Context context) {$/;"	m	class:NewsDroidDB
+NewsDroidDB	.\NewsDroidDB.java	/^public class NewsDroidDB extends SQLiteOpenHelper{$/;"	c
+RSSHandler	.\RSSHandler.java	/^public class RSSHandler extends DefaultHandler {$/;"	c
+SAXParsingDone	.\RSSHandler.java	/^	public class SAXParsingDone extends SAXException {}$/;"	c	class:RSSHandler
+TARGET_ARTICLES	.\RSSHandler.java	/^	private static final int TARGET_ARTICLES = 1;$/;"	f	class:RSSHandler	file:
+TARGET_FEED	.\RSSHandler.java	/^	private static final int TARGET_FEED = 0;$/;"	f	class:RSSHandler	file:
+articleId	.\Article.java	/^	public long articleId;$/;"	f	class:Article
+articlesAdded	.\RSSHandler.java	/^	private int articlesAdded = 0;$/;"	f	class:RSSHandler	file:
+buildWidgetUpdate	.\AnimationService.java	/^	private RemoteViews buildWidgetUpdate() {$/;"	m	class:AnimationService	file:
+characters	.\RSSHandler.java	/^	public void characters(char ch[], int start, int length) {$/;"	m	class:RSSHandler
+createFeed	.\RSSHandler.java	/^	public void createFeed(Context context, URL url) {$/;"	m	class:RSSHandler
+currentArticle	.\RSSHandler.java	/^	private Article currentArticle = new Article();$/;"	f	class:RSSHandler	file:
+currentFeed	.\RSSHandler.java	/^	private Feed currentFeed = new Feed();$/;"	f	class:RSSHandler	file:
+db	.\NewsDroidDB.java	/^	private SQLiteDatabase db;$/;"	f	class:NewsDroidDB	file:
+deleteAricles	.\NewsDroidDB.java	/^	public boolean deleteAricles(Long feedId) {$/;"	m	class:NewsDroidDB
+deleteFeed	.\NewsDroidDB.java	/^	public boolean deleteFeed(Long feedId) {$/;"	m	class:NewsDroidDB
+droidDB	.\RSSHandler.java	/^	private NewsDroidDB droidDB = null;$/;"	f	class:RSSHandler	file:
+endElement	.\RSSHandler.java	/^	public void endElement(String uri, String name, String qName)$/;"	m	class:RSSHandler
+feedId	.\Article.java	/^	public long feedId;$/;"	f	class:Article
+feedId	.\Feed.java	/^    public long feedId;$/;"	f	class:Feed
+getArticles	.\NewsDroidDB.java	/^	public List<Article> getArticles(Long feedId) {$/;"	m	class:NewsDroidDB
+getFeed	.\RSSHandler.java	/^	public List<Feed> getFeed(){$/;"	m	class:RSSHandler
+getFeeds	.\NewsDroidDB.java	/^	public List<Feed> getFeeds() {$/;"	m	class:NewsDroidDB
+inItem	.\RSSHandler.java	/^	private boolean inItem = false;$/;"	f	class:RSSHandler	file:
+inLink	.\RSSHandler.java	/^	private boolean inLink = false;$/;"	f	class:RSSHandler	file:
+inTitle	.\RSSHandler.java	/^	private boolean inTitle = false;$/;"	f	class:RSSHandler	file:
+insertArticle	.\NewsDroidDB.java	/^	public boolean insertArticle(Long feedId, String title, URL url) {$/;"	m	class:NewsDroidDB
+insertFeed	.\NewsDroidDB.java	/^	public boolean insertFeed(String title, URL url) {$/;"	m	class:NewsDroidDB
+layoutIdx	.\AnimationService.java	/^	private int layoutIdx = 0;$/;"	f	class:AnimationService	file:
+log	.\DebugLog.java	/^    public static void log(String message)$/;"	m	class:DebugLog
+makeAnimationWidgetViewSlide	.\AnimationService.java	/^	synchronized private void makeAnimationWidgetViewSlide(AppWidgetManager appWidgetManager)$/;"	m	class:AnimationService	file:
+makeBitmap	.\AnimationService.java	/^	private Bitmap makeBitmap(int idx){$/;"	m	class:AnimationService	file:
+mqWidgetIdList	.\AnimationService.java	/^	private static List<Integer> mqWidgetIdList = new ArrayList<Integer>();$/;"	f	class:AnimationService	file:
+onBind	.\AnimationService.java	/^	public IBinder onBind(Intent arg0) {$/;"	m	class:AnimationService
+onCreate	.\AnimationService.java	/^	public void onCreate() {$/;"	m	class:AnimationService
+onCreate	.\NewsDroidDB.java	/^	public void onCreate(SQLiteDatabase db) {$/;"	m	class:NewsDroidDB
+onDeleted	.\AnimationWidget.java	/^	public void onDeleted(Context context, int[] appWidgetIds) {$/;"	m	class:AnimationWidget
+onDestroy	.\AnimationService.java	/^	public void onDestroy() {$/;"	m	class:AnimationService
+onDisabled	.\AnimationWidget.java	/^	public void onDisabled(Context context) {$/;"	m	class:AnimationWidget
+onEnabled	.\AnimationWidget.java	/^	public void onEnabled(Context context) {$/;"	m	class:AnimationWidget
+onReceive	.\AnimationWidget.java	/^	public void onReceive(Context context, Intent intent) {$/;"	m	class:AnimationWidget
+onStart	.\AnimationService.java	/^	public void onStart(Intent intent, int startId) {$/;"	m	class:AnimationService
+onUpdate	.\AnimationWidget.java	/^	public void onUpdate(Context context, AppWidgetManager appWidgetManager,$/;"	m	class:AnimationWidget
+onUpgrade	.\NewsDroidDB.java	/^	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {$/;"	m	class:NewsDroidDB
+requestWidgetStart	.\AnimationService.java	/^	public static void requestWidgetStart(int[] appWidgetIds) {$/;"	m	class:AnimationService
+rss	.\AnimationService.java	/^	private RSSHandler rss;$/;"	f	class:AnimationService	file:
+serviceHandler	.\AnimationService.java	/^	private Handler serviceHandler;$/;"	f	class:AnimationService	file:
+startElement	.\RSSHandler.java	/^	public void startElement(String uri, String name, String qName,$/;"	m	class:RSSHandler
+targetFlag	.\RSSHandler.java	/^	private int targetFlag;$/;"	f	class:RSSHandler	file:
+title	.\Article.java	/^	public String title;$/;"	f	class:Article
+title	.\Feed.java	/^    public String title;$/;"	f	class:Feed
+updateWidget	.\AnimationService.java	/^	synchronized private void updateWidget(String action) {$/;"	m	class:AnimationService	file:
+url	.\Article.java	/^	public URL url;$/;"	f	class:Article
+url	.\Feed.java	/^    public URL url;$/;"	f	class:Feed
