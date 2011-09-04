@@ -2,6 +2,7 @@ package AnimationWidget.com;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.PendingIntent;
@@ -14,6 +15,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Bitmap.Config;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -22,9 +24,10 @@ import android.widget.Toast;
 
 public class AnimationService extends Service {
 
-	private static List<Integer> mqWidgetIdList = new ArrayList<Integer>();
+    private static List<Integer> mqWidgetIdList = new ArrayList<Integer>();
 
 	public static final String ANIMATION_WIDGET_START = "AnimationService.ANIMATION_WIDGET_START";
+	public static final String ANIMATION_WIDGET_ENABLED = "AnimationService.ANIMATION_WIDGET_ENABLED";
 	public static final String ANIMATION_WIDGET_DELETED = "AnimationService.ANIMATION_WIDGET_DELETED";
 	public static final String ANIMATION_WIDGET_UPDATE = "AnimationService.ANIMATION_WIDGET_UPDATE";
 	public static final String ANIMATION_WIDGET_SHOW = "AnimationService.ANIMATION_WIDGET_SHOW";
@@ -32,9 +35,10 @@ public class AnimationService extends Service {
 	private int layoutIdx = 0;
 	private Handler serviceHandler;
 	private static final int HANDLER_MSG_SHOW_ANIMATION = 1;
-	private RSSHandler rss;
+	private RSSHandler rss = null;
 	private NewsDroidDB droidDB = null; //store all RSS feeds
 
+    private List<Article> articles = null; //TODO: use db instead
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
@@ -55,15 +59,22 @@ public class AnimationService extends Service {
 					/*handle UI thread */
 					switch (msg.what) {
 					case HANDLER_MSG_SHOW_ANIMATION:
-						updateWidget(ANIMATION_WIDGET_UPDATE);
+						//updateWidget(ANIMATION_WIDGET_UPDATE);
 						break;
 					}
 				}
 			};
             droidDB = new NewsDroidDB(this, "RSS_DB");
 			rss = new RSSHandler();
-			rss.createFeed(this, new URL("http://feeds.feedburner.com/cnet/pRza?format=xml"));
-			//rss.createFeed(this, new URL("http://tw.rd.yahoo.com/referurl/news/rss2/ind/pol/*http://tw.news.yahoo.com/rss/politics"));
+            //rss.getFeed(this, new URL("http://feeds.feedburner.com/cnet/pRza?format=xml"));
+            List<Feed> feeds = rss.getFeed(new URL("http://tw.rd.yahoo.com/referurl/news/rss2/ind/pol/*http://tw.news.yahoo.com/rss/politics"));
+            articles = new LinkedList<Article>();
+            for (Feed feed : feeds)
+            {
+                List<Article> article = rss.getArticles(feed);
+                articles.addAll(article);
+            }
+            
 
 		} catch (Exception ex) {
 			DebugLog.log(ex.toString());
@@ -78,8 +89,7 @@ public class AnimationService extends Service {
 	public void onStart(Intent intent, int startId) {
 		Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
 		super.onStart(intent, startId);
-		String s = intent.getAction();
-		updateWidget(s);
+		updateWidget(intent);
 	}
 
 	@Override
@@ -89,25 +99,43 @@ public class AnimationService extends Service {
 	}
 
 
-	public static void requestWidgetStart(int[] appWidgetIds) {
-		for (int appWidgetId : appWidgetIds) {
-			if (!mqWidgetIdList.contains(appWidgetId))
-				mqWidgetIdList.add(appWidgetId);
-		}
-	}
+    //public static void requestWidgetStart(int[] appWidgetIds) {
+        //for (int appWidgetId : appWidgetIds) {
+            //if (!mqWidgetIdList.contains(appWidgetId))
+                //mqWidgetIdList.add(appWidgetId);
+        //}
+    //}
 
-	synchronized private void updateWidget(String action) {
+	synchronized private void updateWidget(Intent intent) {
+		String action = intent.getAction();
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-		if (ANIMATION_WIDGET_START.equals(action)) {
-			makeAnimationWidgetViewSlide(appWidgetManager);
+		if (ANIMATION_WIDGET_ENABLED.equals(action)) {
+            //just initialize the service, nothing should be done here
+
+            //makeAnimationWidgetViewSlide(appWidgetManager);
+        } else if (ANIMATION_WIDGET_START.equals(action)) {
+            //a widget is created, init its layout here
+            Bundle params = intent.getExtras();
+            if (params != null) {
+                int[] widgetId = params.getIntArray(AnimationWidget.APP_ID); 
+                makeAnimationWidgetViewSlide(appWidgetManager, widgetId);
+                //DebugLog.log("widgetId: " + Integer.toString(widgetId));
+            }
+        	
+
 		} else if (ANIMATION_WIDGET_DELETED.equals(action)) {
-			mqWidgetIdList.clear();
+            //mqWidgetIdList.clear();
             if (droidDB != null) {
                droidDB.removeDB(); 
             }
 			this.stopSelf();
 		}else if(ANIMATION_WIDGET_UPDATE.equals(action)){
-			makeAnimationWidgetViewSlide(appWidgetManager);
+            /*Bundle params = intent.getExtras();
+            if (params != null) {
+                int widgetId = params.getInt (AnimationWidget.APP_ID); 
+                makeAnimationWidgetViewSlide(appWidgetManager, widgetId);
+            }*/
+			
 		}else if(ANIMATION_WIDGET_SHOW.equals(action)){
 			serviceHandler.removeMessages(HANDLER_MSG_SHOW_ANIMATION);
 			serviceHandler.sendEmptyMessage(HANDLER_MSG_SHOW_ANIMATION);
@@ -121,6 +149,7 @@ public class AnimationService extends Service {
 		if(layoutIdx == 0)
 		{
 			RViews= new RemoteViews(this.getPackageName(),R.layout.layout_a);
+			//RViews= new RemoteViews(this.getPackageName(),R.layout.marquee_a);
 			layoutIdx = 1;
 		}
 		else
@@ -129,18 +158,25 @@ public class AnimationService extends Service {
 			layoutIdx = 0;
 		}
 
-		PendingIntent pending = PendingIntent.getService(this, 0, new Intent(this, AnimationService.class)
-		.setAction(AnimationService.ANIMATION_WIDGET_SHOW), 0);
+        PendingIntent pending = PendingIntent.getService(this, 0, new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_SHOW), 0);
+        //PendingIntent pending = PendingIntent.getService(this, 0, new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_UPDATE), 0);
 		
 		RViews.setOnClickPendingIntent(R.id.start, pending);
 
 		return RViews;
 	}
 
-	synchronized private void makeAnimationWidgetViewSlide(AppWidgetManager appWidgetManager)
+	synchronized private void makeAnimationWidgetViewSlide(AppWidgetManager appWidgetManager, int[] appWidgetId)
 	{
+        RemoteViews updateViews= new RemoteViews(this.getPackageName(),R.layout.marquee_a);
+        String str = "";
+        for (Article article : articles){
+            str = str + article.title;
+        }
+        updateViews.setTextViewText(R.id.text1, str);
+        /*
 		RemoteViews updateViews = buildWidgetUpdate();
-		Bitmap in_bmp,out_bmp;
+		Bitmap in_bmp, out_bmp;
 
 		out_bmp = makeBitmap(layoutIdx == 0 ? 0 : 1);
 		in_bmp = makeBitmap(layoutIdx == 0 ? 1 : 0);
@@ -148,10 +184,11 @@ public class AnimationService extends Service {
 
 		updateViews.setImageViewBitmap(R.id.Move_InImage, in_bmp); 
 		updateViews.setImageViewBitmap(R.id.Move_OutImage, out_bmp);
+        */
 
-		for (int appWidgetId : mqWidgetIdList) {
-			appWidgetManager.updateAppWidget(appWidgetId, updateViews);
-		}				
+        for (int widgetId : appWidgetId) {
+            appWidgetManager.updateAppWidget(widgetId, updateViews);
+        }				
 	}
 
 	private Bitmap makeBitmap(int idx){
@@ -159,8 +196,8 @@ public class AnimationService extends Service {
 		String[] src = {"Hello","World"}; 
 		Bitmap bmp;
 		
-		List<Feed> res = rss.getFeed();
-		src[0] = res.get(0).title;
+        //List<Feed> res = rss.getFeed();
+        //src[0] = res.get(0).title;
 		bmp = Bitmap.createBitmap(270, 60,Config.ARGB_8888);
 		Canvas canvas = new Canvas(bmp);
 		Paint brush = new Paint(Paint.ANTI_ALIAS_FLAG);

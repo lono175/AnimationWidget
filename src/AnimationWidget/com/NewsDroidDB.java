@@ -23,15 +23,15 @@ public class NewsDroidDB extends SQLiteOpenHelper{
 
 	private static final String FEEDS_TABLE = "feeds";
 	private static final String ARTICLES_TABLE = "articles";
-	private static final String DATABASE_NAME = "newdroid";
+	private String DATABASE_NAME = "noname";
 	private static final int DATABASE_VERSION = 1;
 
 	private SQLiteDatabase db;
     private Context context;
-	public NewsDroidDB(Context context, String dbName) {
-        this.context = context;
-        this.DATABASE_NAME = dbName;
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	public NewsDroidDB(Context cont, String dbName) {
+		super(cont, dbName, null, DATABASE_VERSION);
+        this.context = cont;
+        this.DATABASE_NAME = dbName;		
 		db = this.getWritableDatabase();
 	}
     public void removeDB()
@@ -76,8 +76,9 @@ public class NewsDroidDB extends SQLiteOpenHelper{
 
 	public List<Feed> getFeeds() {
 		ArrayList<Feed> feeds = new ArrayList<Feed>();
+		Cursor c = null;
 		try {
-			Cursor c = db.query(FEEDS_TABLE, new String[] { "feed_id", "title",
+			c = db.query(FEEDS_TABLE, new String[] { "feed_id", "title",
 					"url" }, null, null, null, null, null);
 
 			int numRows = c.getCount();
@@ -97,15 +98,17 @@ public class NewsDroidDB extends SQLiteOpenHelper{
 			//Log.e("NewsDroid", e.toString());
 		} finally
         {
-            c.close(); //if not, do we have leak here?
+			if (c != null)
+				c.close(); //if not, do we have leak here?
         }
 		return feeds;
 	}
 
 	public List<Article> getArticles(Long feedId) {
 		ArrayList<Article> articles = new ArrayList<Article>();
+		Cursor c = null;
 		try {
-			Cursor c = db.query(ARTICLES_TABLE, new String[] { "article_id",
+			c = db.query(ARTICLES_TABLE, new String[] { "article_id",
 					"feed_id", "title", "url" },
 					"feed_id=" + feedId.toString(), null, null, null, null);
 
@@ -126,7 +129,8 @@ public class NewsDroidDB extends SQLiteOpenHelper{
 			Log.e("NewsDroid", e.toString());
 		} finally
         {
-            c.close(); //if not, do we have leak here?
+			if (c != null)
+				c.close(); //if not, do we have leak here?
         }
 
 		return articles;

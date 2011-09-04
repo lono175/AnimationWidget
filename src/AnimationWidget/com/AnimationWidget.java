@@ -9,8 +9,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+//TODO: add stock price info from Yahoo Stock
 public class AnimationWidget extends AppWidgetProvider {
 
+	public static final String APP_ID = "ANIMATION_WIDGET_APP_ID";
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
@@ -19,10 +21,12 @@ public class AnimationWidget extends AppWidgetProvider {
 			appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(
 					context, AnimationWidget.class));
 		}
- 		AnimationService.requestWidgetStart(appWidgetIds);
 
+        //AnimationService.requestWidgetStart(appWidgetIds);
 		Intent intent = new Intent(context, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_START);
-		context.startService(intent);
+        intent.putExtra (APP_ID, appWidgetIds);
+        //AnimationService.requestWidgetStart(appWidgetIds);
+        context.startService(intent);
 	}
 
     /**
@@ -38,6 +42,10 @@ public class AnimationWidget extends AppWidgetProvider {
 	@Override
 	public void onEnabled(Context context) {
 		Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show();
+
+        //initialize service
+		Intent intent = new Intent(context, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_ENABLED);
+		context.startService(intent);
 	}
 
 	@Override

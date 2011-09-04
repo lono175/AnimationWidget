@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" android:background="@drawable/mq_widget_bg"
+	android:layout_width="310dip" android:layout_height="76dip">
+	<FrameLayout android:id="@+id/FrameLayout"
+		android:layout_height="fill_parent" android:layout_width="fill_parent"
+		android:layout_weight="1">
+<!-- 		 <TextView    -->
+<!--  android:text="This is TextView,you can input anything you want"    -->
+<!--  android:id="@+id/text_view"    -->
+<!--  android:layout_width="wrap_content"   -->
+<!--   android:layout_height="wrap_content"   -->
+<!--   android:textSize="16sp"   -->
+<!--   android:padding="10dip"   -->
+<!--   android:background="#cc0000"   -->
+<!--   >   -->
+<!--  </TextView>   -->
+		<TextView
+		android:id="@+id/text1"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="aaaaaaaaaaaaabbbbbbbbbbbbbbbbbbcccccccccccccccccccccddddddddddddddddddeeeeeeeeeeeeeeeeeefffffffffffffff"
+		android:textColor="#FFFFFF"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:scrollX="2px"
+		android:textSize="30px" 
+		android:singleLine="true"
+		android:ellipsize="marquee"
+		android:marqueeRepeatLimit="marquee_forever"    
+    	android:scrollHorizontally="true"
+    	android:focusable="true"
+    	android:focusableInTouchMode="true"
+		
+		>
+		</TextView>
+	</FrameLayout>
+	<ImageButton android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:src="@drawable/widget_arrow_selector"
+		android:clickable="true" android:focusable="true"
+		android:background="@drawable/edit_theme_black"
+		android:focusableInTouchMode="true" android:adjustViewBounds="true"
+		android:scaleType="fitXY" android:id="@+id/start"></ImageButton>
+
+</LinearLayout>
