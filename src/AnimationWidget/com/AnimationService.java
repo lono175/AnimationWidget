@@ -130,11 +130,12 @@ public class AnimationService extends Service {
             }
 			this.stopSelf();
 		}else if(ANIMATION_WIDGET_UPDATE.equals(action)){
-            /*Bundle params = intent.getExtras();
+             Bundle params = intent.getExtras();
             if (params != null) {
-                int widgetId = params.getInt (AnimationWidget.APP_ID); 
+                int[] widgetId = params.getIntArray(AnimationWidget.APP_ID); 
                 makeAnimationWidgetViewSlide(appWidgetManager, widgetId);
-            }*/
+                //DebugLog.log("widgetId: " + Integer.toString(widgetId));
+            }
 			
 		}else if(ANIMATION_WIDGET_SHOW.equals(action)){
 			serviceHandler.removeMessages(HANDLER_MSG_SHOW_ANIMATION);
@@ -142,7 +143,7 @@ public class AnimationService extends Service {
 		}
 	}
 
-	private RemoteViews buildWidgetUpdate() {
+	private RemoteViews buildWidgetUpdate(int[] appWidgetIds) {
 
 		RemoteViews RViews;
 		
@@ -158,8 +159,10 @@ public class AnimationService extends Service {
 			layoutIdx = 0;
 		}
 
-        PendingIntent pending = PendingIntent.getService(this, 0, new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_SHOW), 0);
-        //PendingIntent pending = PendingIntent.getService(this, 0, new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_UPDATE), 0);
+		Intent intent = new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_UPDATE);
+        intent.putExtra (AnimationWidget.APP_ID, appWidgetIds);
+        //PendingIntent pending = PendingIntent.getService(this, 0, new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_SHOW), 0);
+        PendingIntent pending = PendingIntent.getService(this, 0, intent, 0);
 		
 		RViews.setOnClickPendingIntent(R.id.start, pending);
 
@@ -168,14 +171,19 @@ public class AnimationService extends Service {
 
 	synchronized private void makeAnimationWidgetViewSlide(AppWidgetManager appWidgetManager, int[] appWidgetId)
 	{
-        RemoteViews updateViews= new RemoteViews(this.getPackageName(),R.layout.marquee_a);
+		/*
+        RemoteViews updateViews1 = new RemoteViews(this.getPackageName(),R.layout.marquee_a);
+        //RemoteViews updateViews2 = new RemoteViews(this.getPackageName(),R.layout.marquee_b);
         String str = "";
         for (Article article : articles){
             str = str + article.title;
         }
-        updateViews.setTextViewText(R.id.text1, str);
-        /*
-		RemoteViews updateViews = buildWidgetUpdate();
+        
+        //updateViews2.setTextViewText(R.id.text1, str);
+        updateViews1.setTextViewText(R.id.text1, str);
+        */
+        
+		RemoteViews updateViews = buildWidgetUpdate(appWidgetId);
 		Bitmap in_bmp, out_bmp;
 
 		out_bmp = makeBitmap(layoutIdx == 0 ? 0 : 1);
@@ -184,10 +192,11 @@ public class AnimationService extends Service {
 
 		updateViews.setImageViewBitmap(R.id.Move_InImage, in_bmp); 
 		updateViews.setImageViewBitmap(R.id.Move_OutImage, out_bmp);
-        */
+        
 
         for (int widgetId : appWidgetId) {
             appWidgetManager.updateAppWidget(widgetId, updateViews);
+            //appWidgetManager.updateAppWidget(widgetId, updateViews2);
         }				
 	}
 

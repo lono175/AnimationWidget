@@ -8,43 +8,34 @@
 		<LinearLayout android:id="@+id/MoveIn"
 			android:layout_height="fill_parent" android:layout_width="fill_parent"
 			android:layoutAnimation="@anim/in_move">
-									<TextView
+		<TextView
 		android:id="@+id/text_in"
 		android:layout_height="wrap_content"
 		android:text="aaaaaaaaaaaaabbbbbbbbbbbbbbbbbbcccccccccccccccccccccddddddddddddddddddeeeeeeeeeeeeeeeeeefffffffffffffff"
 		android:textColor="#FFFFFF"
 		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="2000dp"
+		android:scrollX="2px"
+		android:textSize="30px" 
 		android:singleLine="true"	
-		android:ellipsize="marquee"
-    	
-    		
+    	android:layout_width="fill_parent" 	
 		>
 		</TextView>
-			<ImageView android:layout_height="fill_parent"
-				android:layout_width="fill_parent" android:id="@+id/Move_InImage"
-				android:scaleType="fitXY" android:adjustViewBounds="true"></ImageView>
 		</LinearLayout>
 		<LinearLayout android:layout_height="fill_parent"
 			android:layout_width="fill_parent" android:id="@+id/MoveOut"
 			android:layoutAnimation="@anim/out_move">
-						<TextView
+		<TextView
 		android:id="@+id/text_out"
 		android:layout_height="wrap_content"
 		android:text="aaaaaaaaaaaaabbbbbbbbbbbbbbbbbbcccccccccccccccccccccddddddddddddddddddeeeeeeeeeeeeeeeeeefffffffffffffff"
 		android:textColor="#FFFFFF"
 		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="2000dp"
+		android:scrollX="2px"
+		android:textSize="30px" 
 		android:singleLine="true"	
-		android:ellipsize="marquee"
-    	
-    		
+    	android:layout_width="fill_parent" 	
 		>
 		</TextView>
-			<ImageView android:layout_height="fill_parent"
-				android:layout_width="fill_parent" android:id="@+id/Move_OutImage"
-				android:scaleType="fitXY" android:adjustViewBounds="true"></ImageView>
-
 		</LinearLayout>
 	</FrameLayout>
 	<ImageButton android:layout_width="wrap_content"
