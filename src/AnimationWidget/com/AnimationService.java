@@ -64,6 +64,7 @@ public class AnimationService extends Service {
 					}
 				}
 			};
+			/*
             droidDB = new NewsDroidDB(this, "RSS_DB");
 			rss = new RSSHandler();
             //rss.getFeed(this, new URL("http://feeds.feedburner.com/cnet/pRza?format=xml"));
@@ -74,6 +75,7 @@ public class AnimationService extends Service {
                 List<Article> article = rss.getArticles(feed);
                 articles.addAll(article);
             }
+            */
             
 
 		} catch (Exception ex) {
@@ -184,6 +186,8 @@ public class AnimationService extends Service {
         */
         
 		RemoteViews updateViews = buildWidgetUpdate(appWidgetId);
+		
+		//updateViews.setBoolean(R.id.text_in, "setSelected", true);
 		Bitmap in_bmp, out_bmp;
 
 		out_bmp = makeBitmap(layoutIdx == 0 ? 0 : 1);
