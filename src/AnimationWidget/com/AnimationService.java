@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -19,12 +20,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 public class AnimationService extends Service {
 
-    private static List<Integer> mqWidgetIdList = new ArrayList<Integer>();
+    //private static List<Integer> mqWidgetIdList = new ArrayList<Integer>();
 
 	public static final String ANIMATION_WIDGET_START = "AnimationService.ANIMATION_WIDGET_START";
 	public static final String ANIMATION_WIDGET_ENABLED = "AnimationService.ANIMATION_WIDGET_ENABLED";
@@ -64,6 +66,7 @@ public class AnimationService extends Service {
 					}
 				}
 			};
+			/*
             droidDB = new NewsDroidDB(this, "RSS_DB");
 			rss = new RSSHandler();
             //rss.getFeed(this, new URL("http://feeds.feedburner.com/cnet/pRza?format=xml"));
@@ -73,7 +76,7 @@ public class AnimationService extends Service {
             {
                 List<Article> article = rss.getArticles(feed);
                 articles.addAll(article);
-            }
+            }*/
             
 
 		} catch (Exception ex) {
@@ -87,7 +90,6 @@ public class AnimationService extends Service {
 
 	@Override
 	public void onStart(Intent intent, int startId) {
-		Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
 		super.onStart(intent, startId);
 		updateWidget(intent);
 	}
@@ -113,7 +115,9 @@ public class AnimationService extends Service {
             //just initialize the service, nothing should be done here
 
             //makeAnimationWidgetViewSlide(appWidgetManager);
+		    Toast.makeText(this, "WidgetEnable", Toast.LENGTH_SHORT).show();
         } else if (ANIMATION_WIDGET_START.equals(action)) {
+		    Toast.makeText(this, "WidgetStart", Toast.LENGTH_SHORT).show();
             //a widget is created, init its layout here
             Bundle params = intent.getExtras();
             if (params != null) {
@@ -125,13 +129,16 @@ public class AnimationService extends Service {
 
 		} else if (ANIMATION_WIDGET_DELETED.equals(action)) {
             //mqWidgetIdList.clear();
+		    Toast.makeText(this, "WidgetDelete", Toast.LENGTH_SHORT).show();
             if (droidDB != null) {
                droidDB.removeDB(); 
             }
 			this.stopSelf();
 		}else if(ANIMATION_WIDGET_UPDATE.equals(action)){
+		    
              Bundle params = intent.getExtras();
             if (params != null) {
+            	Toast.makeText(this, "WidgetUpdate", Toast.LENGTH_SHORT).show();
                 int[] widgetId = params.getIntArray(AnimationWidget.APP_ID); 
                 makeAnimationWidgetViewSlide(appWidgetManager, widgetId);
                 //DebugLog.log("widgetId: " + Integer.toString(widgetId));
@@ -159,6 +166,9 @@ public class AnimationService extends Service {
 			layoutIdx = 0;
 		}
 
+		//RViews.setFloat(R.id.text_in, "setWidth", 100);
+		//RViews.setFloat(R.id.text_out, "setWidth", 100);
+        
 		Intent intent = new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_UPDATE);
         intent.putExtra (AnimationWidget.APP_ID, appWidgetIds);
         //PendingIntent pending = PendingIntent.getService(this, 0, new Intent(this, AnimationService.class).setAction(AnimationService.ANIMATION_WIDGET_SHOW), 0);
@@ -171,27 +181,42 @@ public class AnimationService extends Service {
 
 	synchronized private void makeAnimationWidgetViewSlide(AppWidgetManager appWidgetManager, int[] appWidgetId)
 	{
-		/*
-        RemoteViews updateViews1 = new RemoteViews(this.getPackageName(),R.layout.marquee_a);
-        //RemoteViews updateViews2 = new RemoteViews(this.getPackageName(),R.layout.marquee_b);
+        RemoteViews updateViews = buildWidgetUpdate(appWidgetId);
+        String str = "hello1111111111111111111111111232222222222222233333333333333333344444444444444444444444444444444444444444444444444";
+        /*
         String str = "";
         for (Article article : articles){
             str = str + article.title;
         }
-        
-        //updateViews2.setTextViewText(R.id.text1, str);
-        updateViews1.setTextViewText(R.id.text1, str);
         */
         
-		RemoteViews updateViews = buildWidgetUpdate(appWidgetId);
-		Bitmap in_bmp, out_bmp;
+        updateViews.setTextViewText(R.id.text_in, str);
+        updateViews.setTextViewText(R.id.text_out, str);
+        
+      
+        float fontSize = 14;
+       
+        updateViews.setFloat(R.id.text_in, "setTextSize", fontSize);
+        updateViews.setFloat(R.id.text_out, "setTextSize", fontSize);
+        /*
+        Resources r = getResources();
+        int len = str.length();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, fontSize*len, r.getDisplayMetrics());
+        */
+        //updateViews.setFloat(R.id.text_in, "setWidth", 100);
+        //updateViews.setFloat(R.id.text_out, "setWidth", 100);
+        
+        
+        
+        //RemoteViews updateViews = buildWidgetUpdate(appWidgetId);
+        Bitmap in_bmp, out_bmp;
 
-		out_bmp = makeBitmap(layoutIdx == 0 ? 0 : 1);
-		in_bmp = makeBitmap(layoutIdx == 0 ? 1 : 0);
+        out_bmp = makeBitmap(layoutIdx == 0 ? 0 : 1);
+        in_bmp = makeBitmap(layoutIdx == 0 ? 1 : 0);
 
 
-		updateViews.setImageViewBitmap(R.id.Move_InImage, in_bmp); 
-		updateViews.setImageViewBitmap(R.id.Move_OutImage, out_bmp);
+        updateViews.setImageViewBitmap(R.id.Move_InImage, in_bmp); 
+        updateViews.setImageViewBitmap(R.id.Move_OutImage, out_bmp);
         
 
         for (int widgetId : appWidgetId) {
